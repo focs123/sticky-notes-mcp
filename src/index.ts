@@ -36,12 +36,12 @@ server.tool('get_env_message', 'envの値を取得する', async() => {
 server.tool('get_id_list', 'NoteのIDを取得する', async() => {
     const dbPath = process.env.db_path  ?? '';
 
-    const message = getIdList(dbPath);
+    const idList = getIdList(dbPath);
 
     return {
         content: [{
             type: 'text',
-            text: message,
+            text: idList.join(","),
         }],
     }
 });

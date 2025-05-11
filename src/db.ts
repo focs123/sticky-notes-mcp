@@ -1,20 +1,20 @@
 import Database from "better-sqlite3";
 import { Note } from "./Note";
 
-export const getIdList = (dbPath: string): string => {
+export const getIdList = (dbPath: string): Array<string> => {
     const db = new Database(dbPath);
 
     const stmt = db.prepare("SELECT * FROM Note");
-    let idText = "";
-    let count = 1;
+    const idList = new Array<string>();
 
     for(const item of stmt.iterate()) {
         const note = item as Record<keyof Note, unknown> 
-
-        idText += String(count) + ":" + note.Id + "\r\n";
+        if (typeof note.Id === "string") {
+            idList.push(note.Id);
+        }
     }
 
     db.close();
 
-    return idText;
+    return idList;
 }
