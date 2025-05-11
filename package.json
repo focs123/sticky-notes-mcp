@@ -1,0 +1,20 @@
+{
+  "name": "sticky-notes-mcp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\""
+  },
+  "files": [
+    "build"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.1",
+    "@types/node": "^22.15.17",
+    "typescript": "^5.8.3"
+  }
+}
