@@ -1,5 +1,5 @@
 /**
- * Note型: note_table_description.csvに基づくメモ情報の型定義
+ * Note型: 付箋情報
  */
 export type Note = {
     /** メモの本文。ユーザーが入力したテキスト内容。 */
