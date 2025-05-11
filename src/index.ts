@@ -19,6 +19,18 @@ server.tool('generate_uuid', 'UUIDを生成する。', async () => {
     }
 });
 
+// envの値が取得できるか確認
+server.tool('get_env_message', 'envの値を取得する', async() => {
+    const message = process.env.env_test  ?? '';
+
+    return {
+        content: [{
+            type: 'text',
+            text: `生成されたmessage: ${message}`,
+        }],
+    }
+});
+
 
 // メイン関数を定義 sqliteのパスとかを設定？
 async function main() {
