@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { getIdList } from "./db";
 
 // MCPサーバーのインスタンスを作成
 const server = new McpServer({
@@ -27,6 +28,20 @@ server.tool('get_env_message', 'envの値を取得する', async() => {
         content: [{
             type: 'text',
             text: `生成されたmessage: ${message}`,
+        }],
+    }
+});
+
+// StickyNotesのIDを取得できるようにする
+server.tool('get_id_list', 'NoteのIDを取得する', async() => {
+    const dbPath = process.env.db_path  ?? '';
+
+    const message = getIdList(dbPath);
+
+    return {
+        content: [{
+            type: 'text',
+            text: message,
         }],
     }
 });

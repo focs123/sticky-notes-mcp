@@ -2,4 +2,6 @@ cline_work/
 sqlite_folder/
 build/
 node_modules/
+dev_sqlite/
+
 package-lock.json
