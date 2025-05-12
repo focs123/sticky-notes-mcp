@@ -1,29 +1,30 @@
 import { Note } from "./type/Note";
+import { User } from "./type/User";
 import crypto from "crypto";
 
 
-export const createDefaultNote = (text: string): Note => {
+export const createDefaultNote = (text: string, user: User): Note => {
     const lines = text.split(/\r?\n/);
     const linesWithUuid = lines.map(line => `\\id=${crypto.randomUUID()} ${line}`);
     return {
         Id: crypto.randomUUID(),
         Text: linesWithUuid.join('\n'),
-        WindowPosition: "",
+        WindowPosition: undefined,
         IsOpen: 0,
         IsAlwaysOnTop: 0,
         CreationNoteIdAnchor: undefined,
         Theme: ["Yellow", "Blue", "Green"][Math.floor(Math.random() * 3)],
         IsFutureNote: 0,
-        RemoteId: undefined,
+        RemoteId: user.ParentId,
         ChangeKey: undefined,
         LastServerVersion: undefined,
         RemoteSchemaVersion: undefined,
         IsRemoteDataInvalid: undefined,
-        PendingInsightsScan: undefined,
+        PendingInsightsScan: 0,
         Type: undefined,
         ParentId: undefined,
         CreatedAt: Date.now(),
-        DeletedAt: 0,
+        DeletedAt: undefined,
         UpdatedAt: Date.now(),
     };
 };

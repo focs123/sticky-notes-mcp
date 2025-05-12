@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addNote = exports.getNote = exports.getNotesList = exports.getIdList = void 0;
+exports.addNote = exports.getUser = exports.getNote = exports.getNotesList = exports.getIdList = void 0;
 const better_sqlite3_1 = __importDefault(require("better-sqlite3"));
 // Get all registered Note UUIDs
 const getIdList = (dbPath) => {
@@ -63,6 +63,20 @@ const getNote = (dbPath, id) => {
     return note;
 };
 exports.getNote = getNote;
+// Get a User
+const getUser = (dbPath) => {
+    const db = new better_sqlite3_1.default(dbPath);
+    let user = null;
+    // Get the row from the User table
+    const stmt = db.prepare("SELECT * FROM User");
+    const item = stmt.get();
+    if (item) {
+        user = item;
+    }
+    db.close();
+    return user;
+};
+exports.getUser = getUser;
 // Register a Note
 const addNote = (dbPath, note) => {
     const db = new better_sqlite3_1.default(dbPath);

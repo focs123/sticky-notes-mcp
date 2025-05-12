@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import { Note } from "./type/Note";
 import { NoteInfo } from "./type/NoteInfo";
+import { User } from "./type/User";
 
  // Get all registered Note UUIDs
 export const getIdList = (dbPath: string): Array<string> => {
@@ -73,6 +74,24 @@ export const getNote = (dbPath: string, id: string):(Note | null) => {
     db.close();
 
     return note;
+}
+
+// Get a User
+export const getUser = (dbPath: string): (User | null) => {
+    const db = new Database(dbPath);
+    let user: User | null = null;
+
+    // Get the row from the User table
+    const stmt = db.prepare("SELECT * FROM User");
+    const item = stmt.get();
+
+    if (item) {
+        user = item as User;
+    }
+
+    db.close();
+
+    return user;
 }
 
  // Register a Note

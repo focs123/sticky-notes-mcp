@@ -39,15 +39,20 @@ server.tool('get_note', 'Get a sticky note by ID', { id: zod_1.z.string() }, asy
             }],
     };
 });
-// Create a sticky note
+// ToDo: Create a sticky note
 server.tool('add_note', 'Create a sticky note', { text: zod_1.z.string() }, async ({ text }) => {
-    const note = (0, util_1.createDefaultNote)(text);
     const dbPath = process.env.db_path ?? '';
-    (0, db_1.addNote)(dbPath, note);
+    const user = (0, db_1.getUser)(dbPath);
+    let returnMessage = 'Failed.';
+    if (user !== null) {
+        const note = (0, util_1.createDefaultNote)(text, user);
+        (0, db_1.addNote)(dbPath, note);
+        returnMessage = 'Creation completed.';
+    }
     return {
         content: [{
                 type: 'text',
-                text: 'Creation completed.',
+                text: returnMessage,
             }],
     };
 });

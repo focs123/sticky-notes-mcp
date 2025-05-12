@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { addNote, getIdList, getNote, getNotesList } from "./db";
+import { addNote, getIdList, getNote, getNotesList, getUser } from "./db";
 import {z} from "zod";
 import { createDefaultNote, getNoteText } from "./util";
 
@@ -49,22 +49,28 @@ server.tool('get_note', 'Get a sticky note by ID', {id : z.string()} ,async({id}
 });
 
  // ToDo: Create a sticky note
- /*
 server.tool('add_note', 'Create a sticky note', {text : z.string()} ,async({text}) => {
-    const note = createDefaultNote(text);
-
     const dbPath = process.env.db_path  ?? '';
 
-    addNote(dbPath, note);
+    const user = getUser(dbPath);
+
+    let returnMessage = 'Failed.';
+
+    if (user !== null) {
+        const note = createDefaultNote(text, user);
+
+        addNote(dbPath, note);
+        returnMessage =  'Creation completed.';
+    }
 
     return {
         content: [{
             type: 'text',
-            text: 'Creation completed.',
+            text: returnMessage,
         }],
     }
+
 });
-*/
 
  // Define the main function (set sqlite path, etc.?)
 async function main() {
