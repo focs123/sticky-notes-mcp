@@ -2,7 +2,7 @@ import Database from "better-sqlite3";
 import { Note } from "./type/Note";
 import { NoteInfo } from "./type/NoteInfo";
 
-// 登録されているNoteのUUIDを全て取得
+ // Get all registered Note UUIDs
 export const getIdList = (dbPath: string): Array<string> => {
     const db = new Database(dbPath);
 
@@ -22,7 +22,7 @@ export const getIdList = (dbPath: string): Array<string> => {
     return idList;
 }
 
-// 登録されているNoteの一覧を取得
+ // Get a list of all registered Notes
 export const getNotesList = (dbPath: string):Array<NoteInfo> => {
     const db = new Database(dbPath);
     const noteInfoList = new Array<NoteInfo>();
@@ -35,7 +35,7 @@ export const getNotesList = (dbPath: string):Array<NoteInfo> => {
         let text = "";
 
         if (typeof note.Text === "string") {
-            // 1行目を取得し、先頭の\id=UUID部分を除去して15文字以上は省略し「・・・」を付与
+            // Get the first line, remove the leading \id=UUID part, and if over 30 characters, truncate and add "..."
             const firstLine = note.Text.split(/\r?\n/)[0] ?? "";
             const removedUuid = firstLine.replace(/^\\id=[0-9a-fA-F\-]+\s*/, "");
 
@@ -57,12 +57,12 @@ export const getNotesList = (dbPath: string):Array<NoteInfo> => {
     return noteInfoList;
 }
 
-// 指定したIdをもとにNoteを取得する
+ // Get a Note by the specified Id
 export const getNote = (dbPath: string, id: string):(Note | null) => {
     const db = new Database(dbPath);
     let note: Note | null = null;
 
-    // Noteテーブルからidが一致する値を取得
+    // Get the row from the Note table where the id matches
     const stmt = db.prepare("SELECT * FROM Note WHERE Id = ?");
     const item = stmt.get(id);
 
@@ -75,7 +75,7 @@ export const getNote = (dbPath: string, id: string):(Note | null) => {
     return note;
 }
 
-// Noteを登録する
+ // Register a Note
 export const addNote = (dbPath: string, note: Note): void => {
     const db = new Database(dbPath);
 
@@ -93,7 +93,7 @@ export const addNote = (dbPath: string, note: Note): void => {
 
     if (columns.length === 0) {
         db.close();
-        throw new Error("登録するデータがありません");
+        throw new Error("No data to register");
     }
 
     const sql = `INSERT INTO Note (${columns.join(",")}) VALUES (${placeholders.join(",")})`;

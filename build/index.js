@@ -5,12 +5,12 @@ const stdio_js_1 = require("@modelcontextprotocol/sdk/server/stdio.js");
 const db_1 = require("./db");
 const zod_1 = require("zod");
 const util_1 = require("./util");
-// MCPサーバーのインスタンスを作成
+// Create an instance of the MCP server
 const server = new mcp_js_1.McpServer({
-    name: 'sticky-notes-mcp', // サーバー名
-    version: '1.0.0', // バージョン
+    name: 'sticky-notes-mcp', // Server name
+    version: '1.0.0', // Version
 });
-server.tool('get_notes_list', '付箋一覧を取得する', async () => {
+server.tool('get_notes_list', 'Get a list of sticky notes', async () => {
     const dbPath = process.env.db_path ?? '';
     const notes = (0, db_1.getNotesList)(dbPath);
     let notesText = "";
@@ -24,8 +24,8 @@ server.tool('get_notes_list', '付箋一覧を取得する', async () => {
             }],
     };
 });
-// Idから付箋の内容を取得できるようにする
-server.tool('get_note', 'IDから付箋を取得する', { id: zod_1.z.string() }, async ({ id }) => {
+// Enable retrieval of sticky note content by Id
+server.tool('get_note', 'Get a sticky note by ID', { id: zod_1.z.string() }, async ({ id }) => {
     const dbPath = process.env.db_path ?? '';
     const note = (0, db_1.getNote)(dbPath, id);
     let message = "";
@@ -39,19 +39,19 @@ server.tool('get_note', 'IDから付箋を取得する', { id: zod_1.z.string() 
             }],
     };
 });
-// 付箋を作成する
-server.tool('add_note', '付箋を作成する', { text: zod_1.z.string() }, async ({ text }) => {
+// Create a sticky note
+server.tool('add_note', 'Create a sticky note', { text: zod_1.z.string() }, async ({ text }) => {
     const note = (0, util_1.createDefaultNote)(text);
     const dbPath = process.env.db_path ?? '';
     (0, db_1.addNote)(dbPath, note);
     return {
         content: [{
                 type: 'text',
-                text: '作成が完了しました。',
+                text: 'Creation completed.',
             }],
     };
 });
-// メイン関数を定義 sqliteのパスとかを設定？
+// Define the main function (set sqlite path, etc.?)
 async function main() {
     const transport = new stdio_js_1.StdioServerTransport();
     await server.connect(transport);

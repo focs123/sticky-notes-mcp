@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addNote = exports.getNote = exports.getNotesList = exports.getIdList = void 0;
 const better_sqlite3_1 = __importDefault(require("better-sqlite3"));
-// 登録されているNoteのUUIDを全て取得
+// Get all registered Note UUIDs
 const getIdList = (dbPath) => {
     const db = new better_sqlite3_1.default(dbPath);
     const stmt = db.prepare("SELECT * FROM Note");
@@ -20,7 +20,7 @@ const getIdList = (dbPath) => {
     return idList;
 };
 exports.getIdList = getIdList;
-// 登録されているNoteの一覧を取得
+// Get a list of all registered Notes
 const getNotesList = (dbPath) => {
     const db = new better_sqlite3_1.default(dbPath);
     const noteInfoList = new Array();
@@ -30,7 +30,7 @@ const getNotesList = (dbPath) => {
         const id = typeof note.Id === "string" ? note.Id : "";
         let text = "";
         if (typeof note.Text === "string") {
-            // 1行目を取得し、先頭の\id=UUID部分を除去して15文字以上は省略し「・・・」を付与
+            // Get the first line, remove the leading \id=UUID part, and if over 30 characters, truncate and add "..."
             const firstLine = note.Text.split(/\r?\n/)[0] ?? "";
             const removedUuid = firstLine.replace(/^\\id=[0-9a-fA-F\-]+\s*/, "");
             if (removedUuid.length > 30) {
@@ -49,11 +49,11 @@ const getNotesList = (dbPath) => {
     return noteInfoList;
 };
 exports.getNotesList = getNotesList;
-// 指定したIdをもとにNoteを取得する
+// Get a Note by the specified Id
 const getNote = (dbPath, id) => {
     const db = new better_sqlite3_1.default(dbPath);
     let note = null;
-    // Noteテーブルからidが一致する値を取得
+    // Get the row from the Note table where the id matches
     const stmt = db.prepare("SELECT * FROM Note WHERE Id = ?");
     const item = stmt.get(id);
     if (item) {
@@ -63,7 +63,7 @@ const getNote = (dbPath, id) => {
     return note;
 };
 exports.getNote = getNote;
-// Noteを登録する
+// Register a Note
 const addNote = (dbPath, note) => {
     const db = new better_sqlite3_1.default(dbPath);
     const columns = [];
@@ -78,7 +78,7 @@ const addNote = (dbPath, note) => {
     }
     if (columns.length === 0) {
         db.close();
-        throw new Error("登録するデータがありません");
+        throw new Error("No data to register");
     }
     const sql = `INSERT INTO Note (${columns.join(",")}) VALUES (${placeholders.join(",")})`;
     const stmt = db.prepare(sql);

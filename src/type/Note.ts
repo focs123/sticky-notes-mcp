@@ -1,43 +1,43 @@
 /**
- * Note型: 付箋情報
+ * Note type: Sticky note information
  */
 export type Note = {
-    /** メモの本文。ユーザーが入力したテキスト内容。 */
+    /** The body of the note. The text content entered by the user. */
     Text?: string;
-    /** メモウィンドウの位置情報（座標やサイズなどをシリアライズした文字列）。 */
+    /** Position information of the note window (a serialized string of coordinates, size, etc.). */
     WindowPosition?: string;
-    /** メモが現在開いているかどうか（0: 開いている、1: 閉じている）。 */
+    /** Whether the note is currently open (0: open, 1: closed). */
     IsOpen?: number;
-    /** メモウィンドウが常に最前面に表示されるか（1: 最前面、 0: 通常）。 */
+    /** Whether the note window is always on top (1: always on top, 0: normal). */
     IsAlwaysOnTop?: number;
-    /** 作成元のNoteのID。複製や派生元を示す場合に使用。 */
+    /** The ID of the source note. Used to indicate duplication or derivation. */
     CreationNoteIdAnchor?: string;
-    /** メモのテーマ（色やデザインの種類など 例: Yellow Green）。 */
+    /** Theme of the note (color or design type, e.g., Yellow, Green). */
     Theme?: string;
-    /** 将来のメモかどうか（1: 将来のメモ、 0: 通常のメモ）。 */
+    /** Whether this is a future note (1: future note, 0: normal note). */
     IsFutureNote?: number;
-    /** 外部サービスと連携する場合のリモートID。 */
+    /** Remote ID for integration with external services. */
     RemoteId?: string;
-    /** リモートデータが無効かどうか（1: 無効、0: 有効）。 */
+    /** Whether the remote data is invalid (1: invalid, 0: valid). */
     ChangeKey?: string;
-    /** インサイト（分析）スキャンが保留中か（1: 保留中、0: なし）。 */
+    /** Whether an insight (analysis) scan is pending (1: pending, 0: none). */
     LastServerVersion?: string;
-    /** 外部サービスのスキーマバージョン。 */
+    /** Schema version of the external service. */
     RemoteSchemaVersion?: number;
-    /** リモートデータが無効かどうか（1: 無効、 0: 有効）。 */
+    /** Whether the remote data is invalid (1: invalid, 0: valid). */
     IsRemoteDataInvalid?: number;
-    /** インサイト（分析）スキャンが保留中か（1: 保留中、 0: なし）。 */
+    /** Whether an insight (analysis) scan is pending (1: pending, 0: none). */
     PendingInsightsScan?: number;
-    /** メモの種類（通常メモ、タスク、リマインダーなど用途に応じたタイプ）。 */
+    /** Type of note (normal note, task, reminder, etc. depending on use). */
     Type?: string;
-    /** メモの一意なID。主キー。 */
+    /** Unique ID of the note. Primary key. */
     Id: string;
-    /** 親メモのID。階層構造や関連付けに使用。 */
+    /** Parent note ID. Used for hierarchy or association. */
     ParentId?: string;
-    /** 作成日時（UNIXタイムスタンプ）。 */
+    /** Creation timestamp (UNIX timestamp). */
     CreatedAt?: number;
-    /** 削除日時（UNIXタイムスタンプ、未削除ならNULLまたは0）。 */
+    /** Deletion timestamp (UNIX timestamp, NULL or 0 if not deleted). */
     DeletedAt?: number;
-    /** 最終更新日時（UNIXタイムスタンプ）。 */
+    /** Last updated timestamp (UNIX timestamp). */
     UpdatedAt?: number;
 };

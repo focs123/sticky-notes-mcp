@@ -1,9 +1,9 @@
 /**
- * NoteInfo型: 付箋の基本情報
+ * NoteInfo type: Basic information of a sticky note
  */
 export type NoteInfo = {
-    /** メモの一意なID。主キー。 */
+    /** Unique ID of the note. Primary key. */
     Id: string;
-    /** メモの本文を省略したもの*/
+    /** Abbreviated body text of the note */
     Text?: string;
 }
