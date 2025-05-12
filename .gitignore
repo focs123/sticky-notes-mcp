@@ -1,4 +1,5 @@
 cline_work/
+build/
 sqlite_folder/
 node_modules/
 dev_sqlite/
