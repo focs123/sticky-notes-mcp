@@ -4,8 +4,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
-    "test": "jest"
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\""
   },
   "files": [
     "build"
@@ -20,10 +19,5 @@
     "better-sqlite3": "^11.10.0",
     "typescript": "^5.8.3",
     "zod": "^3.24.4"
-  },
-  "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.3.2"
-  }
+  } 
 }
