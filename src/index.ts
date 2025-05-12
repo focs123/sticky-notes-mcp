@@ -48,7 +48,8 @@ server.tool('get_note', 'Get a sticky note by ID', {id : z.string()} ,async({id}
     }
 });
 
- // Create a sticky note
+ // ToDo: Create a sticky note
+ /*
 server.tool('add_note', 'Create a sticky note', {text : z.string()} ,async({text}) => {
     const note = createDefaultNote(text);
 
@@ -63,6 +64,7 @@ server.tool('add_note', 'Create a sticky note', {text : z.string()} ,async({text
         }],
     }
 });
+*/
 
  // Define the main function (set sqlite path, etc.?)
 async function main() {
