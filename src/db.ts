@@ -35,11 +35,15 @@ export const getNotesList = (dbPath: string):Array<NoteInfo> => {
         let text = "";
 
         if (typeof note.Text === "string") {
-            // 1行目を取得し、先頭の\id=UUID部分を除去して先頭10文字のみ
+            // 1行目を取得し、先頭の\id=UUID部分を除去して15文字以上は省略し「・・・」を付与
             const firstLine = note.Text.split(/\r?\n/)[0] ?? "";
             const removedUuid = firstLine.replace(/^\\id=[0-9a-fA-F\-]+\s*/, "");
 
-            text = removedUuid.slice(0, 10);
+            if (removedUuid.length > 30) {
+                text = removedUuid.slice(0, 30) + "...";
+            } else {
+                text = removedUuid;
+            }
         }
 
         noteInfoList.push({
