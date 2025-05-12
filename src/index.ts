@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { getIdList, getNote } from "./db";
+import { getIdList, getNote, getNotesList } from "./db";
 import {z} from "zod";
 import { getNoteText } from "./util";
 
@@ -10,31 +10,27 @@ const server = new McpServer({
     version: '1.0.0', // バージョン
 });
 
-// MCPのレスポンス形式に従ってUUIDを返却
-server.tool('generate_uuid', 'UUIDを生成する。', async () => {
-    const uuid = crypto.randomUUID();
-
-    return {
-        content: [{
-            type: 'text',
-            text: `生成されたUUID: ${uuid}`,
-        }],
-    }
-});
-
-// envの値が取得できるか確認
-server.tool('get_env_message', 'envの値を取得する', async() => {
-    const message = process.env.env_test  ?? '';
-
-    return {
-        content: [{
-            type: 'text',
-            text: `生成されたmessage: ${message}`,
-        }],
-    }
-});
-
 // StickyNotesのIDを取得できるようにする
+server.tool('get_notes_list', 'Notesの一覧を取得する', async() => {
+    const dbPath = process.env.db_path  ?? '';
+
+    const  notes = getNotesList(dbPath);
+
+    let notesText = "";
+
+    for (const note  of notes) {
+        notesText += `id:${note.Id} title:${note.Text}`
+    }
+
+    return {
+        content: [{
+            type: 'text',
+            text: notesText,
+        }],
+    }
+});
+
+//  StickyNotesから一覧を取得できる
 server.tool('get_id_list', 'NoteのIDを取得する', async() => {
     const dbPath = process.env.db_path  ?? '';
 
