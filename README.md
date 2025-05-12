@@ -1,7 +1,7 @@
 # sticky-notes-mcp
 
 WinodwsのStickyNoteを操作するMCPサーバーです。  
-MCP (Model Context Protocol) に準拠し、標準入出力 (stdio) を通じて付箋の一覧取得・ID指定取得・新規作成が可能です。  
+MCP (Model Context Protocol) に準拠し、標準入出力 (stdio) を通じて付箋の一覧取得・ID指定取得・新規作成が可能。  
 
 ## 機能概要
 
