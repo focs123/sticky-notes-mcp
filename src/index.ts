@@ -1,8 +1,8 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { getIdList, getNote, getNotesList } from "./db";
+import { addNote, getIdList, getNote, getNotesList } from "./db";
 import {z} from "zod";
-import { getNoteText } from "./util";
+import { createDefaultNote, getNoteText } from "./util";
 
 // MCPサーバーのインスタンスを作成
 const server = new McpServer({
@@ -10,8 +10,7 @@ const server = new McpServer({
     version: '1.0.0', // バージョン
 });
 
-// StickyNotesのIDを取得できるようにする
-server.tool('get_notes_list', 'Notesの一覧を取得する', async() => {
+server.tool('get_notes_list', '付箋一覧を取得する', async() => {
     const dbPath = process.env.db_path  ?? '';
 
     const  notes = getNotesList(dbPath);
@@ -30,22 +29,8 @@ server.tool('get_notes_list', 'Notesの一覧を取得する', async() => {
     }
 });
 
-//  StickyNotesから一覧を取得できる
-server.tool('get_id_list', 'NoteのIDを取得する', async() => {
-    const dbPath = process.env.db_path  ?? '';
-
-    const idList = getIdList(dbPath);
-
-    return {
-        content: [{
-            type: 'text',
-            text: idList.join(","),
-        }],
-    }
-});
-
 // Idから付箋の内容を取得できるようにする
-server.tool('get_Note', 'IDから付箋を取得する', {id : z.string()} ,async({id}) => {
+server.tool('get_note', 'IDから付箋を取得する', {id : z.string()} ,async({id}) => {
     const dbPath = process.env.db_path  ?? '';
 
     const note = getNote(dbPath, id);
@@ -59,6 +44,22 @@ server.tool('get_Note', 'IDから付箋を取得する', {id : z.string()} ,asyn
         content: [{
             type: 'text',
             text: message,
+        }],
+    }
+});
+
+// 付箋を作成する
+server.tool('add_note', '付箋を作成する', {text : z.string()} ,async({text}) => {
+    const note = createDefaultNote(text);
+
+    const dbPath = process.env.db_path  ?? '';
+
+    addNote(dbPath, note);
+
+    return {
+        content: [{
+            type: 'text',
+            text: '作成が完了しました。',
         }],
     }
 });

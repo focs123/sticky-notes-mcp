@@ -1,12 +1,15 @@
-import { Note } from "./type/Note";
-import crypto from "crypto";
-
-
-export const createDefaultNote = (text: string): Note => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getNoteText = exports.createDefaultNote = void 0;
+const crypto_1 = __importDefault(require("crypto"));
+const createDefaultNote = (text) => {
     const lines = text.split(/\r?\n/);
-    const linesWithUuid = lines.map(line => `\\id=${crypto.randomUUID()} ${line}`);
+    const linesWithUuid = lines.map(line => `\\id=${crypto_1.default.randomUUID()} ${line}`);
     return {
-        Id: crypto.randomUUID(),
+        Id: crypto_1.default.randomUUID(),
         Text: linesWithUuid.join('\n'),
         WindowPosition: "",
         IsOpen: 0,
@@ -27,14 +30,16 @@ export const createDefaultNote = (text: string): Note => {
         UpdatedAt: Date.now(),
     };
 };
-
-export const getNoteText = (note: Note): string => {
+exports.createDefaultNote = createDefaultNote;
+const getNoteText = (note) => {
     if (typeof note.Text === "string") {
         return note.Text
             .split('\n')
             .map(line => line.replace(/^\\id=[0-9a-fA-F\-]+\s*/, ""))
             .join('\n');
-    } else {
+    }
+    else {
         return "";
     }
-}
+};
+exports.getNoteText = getNoteText;
